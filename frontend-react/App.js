@@ -2,6 +2,8 @@ import React from 'react';
 import {StateProvider,CityProvider,NeighborhoodProvider} from './provider';
 import { RingLoader } from 'react-spinners';
 import { Button } from 'reactstrap';
+import Header from './components/header'
+import Footer from './components/footer';
 // import request from 'request';
 
 class App extends React.Component {
@@ -87,31 +89,47 @@ class App extends React.Component {
     }
 
    render() {
-     if(this.state.loading)
-      return (
-        <div className="popup"><span class="popuptext" id="myPopup"><RingLoader
-          color={'#123abc'}
-          loading={this.state.loading}
-        /></span></div>
-      )
-    else
       return (
          <div>
+         <Header/>
+         <div style={{
+           marginLeft:'120px'
+         }}>
          <h1>States</h1>
+         {this.state.loading &&
+             <div className="popup"><span class="popuptext" id="myPopup"><RingLoader
+             style={{
+              position: 'fixed'
+             }}
+               color={'#123abc'}
+               loading={this.state.loading}
+             /></span></div>
+         }
          <ul id="Menu">
-         {this.state.states.list.map((state,i) => {
-        return (<li> <Button color="success" key={i} onClick ={() => this.onClickState(state)}>View</Button> {state.name}
-        <ul>{this.state[state.id] &&  this.state.cities.list.map((city,i2) => {
-            return (<li> {city.NeighborhoodCant} <Button color="success" key={i2} onClick ={() => this.onClickCity(city)}>View</Button> {city.name}
-            <ul>{this.state[city.id] &&  this.state.neighborhood.list.map((neighborhood,i2) => {
-                return (<li>{neighborhood.name}</li>)
+         {!this.state.loading &&
+             this.state.states.list.map((state,i) => {
+            return (<li>
+              <Button
+                color={this.state[state.id]?"danger":"primary"}
+                style={{margin: '5px',borderRadius:'50%'}}
+                key={i}
+                onClick ={() => this.onClickState(state)}>
+                {this.state[state.id]?"-":"+"}
+              </Button> {state.name}
+            <ul>{this.state[state.id] &&  this.state.cities.list.map((city,i2) => {
+                return (<li> {city.NeighborhoodCant} <Button color={this.state[city.id]?"danger":"info"} style={{margin: '5px',borderRadius:'50%'}} key={i2} onClick ={() => this.onClickCity(city)}>{this.state[city.id]?"-":"+"} </Button> {city.name}
+                <ul>{this.state[city.id] &&  this.state.neighborhood.list.map((neighborhood,i2) => {
+                    return (<li>{neighborhood.name}</li>)
+                  }
+                )}</ul></li>)
               }
             )}</ul></li>)
-          }
-        )}</ul></li>)
-    })}
+        })
+         }
 </ul>
-         <Button onClick = {this.loadStates}>LoadStates</Button>
+         <Button color="info" onClick = {this.loadStates}>LoadStates</Button>
+         </div>
+         <Footer/>
          </div>
       );
    }
