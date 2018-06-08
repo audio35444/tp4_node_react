@@ -1,5 +1,7 @@
 {
   "apiUrl":"https://api.mercadolibre.com/",
+  "crossUrl":"http://localhost",
+  "crossPort":":8080",
   "uri":"classified_locations/",
   "defaultSite":"MLA",
   "defaultLimit":"200",

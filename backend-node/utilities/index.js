@@ -1,5 +1,5 @@
 let request = require('request');
-const {apiUrl,uri} = require('../config/settings.json');
+const {apiUrl,uri,crossUrl,crossPort} = require('../config/settings.json');
 //seller_id
 module.exports.getElementProfileById = (profileTag,id) => {
   return new Promise((resolve,reject) => {
@@ -21,3 +21,4 @@ module.exports.genericRequestGetWithPromise = (fullPath,url=apiUrl+uri) => {
     });
   });
 };
+module.exports.addHeader = (res) => res.header('Access-Control-Allow-Origin', crossUrl+crossPort);
